@@ -1,0 +1,6 @@
+{
+  "name": "Khan Muhammad Rice Mill",
+  "description": "Premium rice milling and agricultural processing business located on Shah Kareem Main Road, Sijawal, Tando Muhammad Khan, Sindh, Pakistan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
