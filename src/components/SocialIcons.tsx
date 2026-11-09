@@ -4,6 +4,7 @@ interface SocialLinksProps {
   facebookUrl?: string;
   tiktokUrl?: string;
   variant?: 'light' | 'dark' | 'header';
+  size?: 'sm' | 'md' | 'lg';
   className?: string;
 }
 
@@ -11,12 +12,25 @@ export const SocialIcons: React.FC<SocialLinksProps> = ({
   facebookUrl = 'https://www.facebook.com/profile.php?id=100063818054955&mibextid=ZbWKwL',
   tiktokUrl = 'https://www.tiktok.com/@khanricemill?_r=1&_t=ZS-9B9VXLXwpj0',
   variant = 'dark',
+  size = 'md',
   className = '',
 }) => {
   const isLight = variant === 'light';
 
+  const buttonSize = {
+    sm: 'w-7 h-7 rounded-md',
+    md: 'w-9 h-9 rounded-lg',
+    lg: 'w-10 h-10 rounded-xl',
+  }[size];
+
+  const iconSize = {
+    sm: 'w-3 h-3',
+    md: 'w-4 h-4',
+    lg: 'w-5 h-5',
+  }[size];
+
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
+    <div className={`flex items-center gap-1 sm:gap-2 shrink-0 ${className}`}>
       {/* Facebook Link */}
       <a
         href={facebookUrl}
@@ -24,14 +38,14 @@ export const SocialIcons: React.FC<SocialLinksProps> = ({
         rel="noopener noreferrer"
         aria-label="Visit Khan Muhammad Rice Mills on Facebook"
         title="Official Facebook Page"
-        className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200 border ${
+        className={`${buttonSize} flex items-center justify-center transition-all duration-200 border shrink-0 cursor-pointer ${
           isLight
-            ? 'bg-white/10 text-white hover:bg-[#D6AA52] hover:text-[#174C35] border-white/20'
-            : 'bg-[#174C35]/5 text-[#174C35] hover:bg-[#174C35] hover:text-white border-[#174C35]/20 hover:border-[#174C35]'
+            ? 'bg-white/10 text-white hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] border-white/20'
+            : 'bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2] hover:text-white border-[#1877F2]/25'
         }`}
       >
         <svg
-          className="w-4 h-4 fill-current"
+          className={`${iconSize} fill-current`}
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -39,26 +53,29 @@ export const SocialIcons: React.FC<SocialLinksProps> = ({
         </svg>
       </a>
 
-      {/* TikTok Link */}
+      {/* TikTok Link (Highlighted for Official Videos) */}
       <a
         href={tiktokUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Visit Khan Muhammad Rice Mills on TikTok"
-        title="Official TikTok Account"
-        className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200 border ${
+        aria-label="Watch Khan Muhammad Rice Mills Videos on TikTok"
+        title="Official TikTok - Watch Mill Videos"
+        className={`${buttonSize} relative flex items-center justify-center transition-all duration-200 border shrink-0 cursor-pointer ${
           isLight
-            ? 'bg-white/10 text-white hover:bg-[#D6AA52] hover:text-[#174C35] border-white/20'
-            : 'bg-[#174C35]/5 text-[#174C35] hover:bg-[#174C35] hover:text-white border-[#174C35]/20 hover:border-[#174C35]'
+            ? 'bg-black/30 text-white hover:bg-black hover:border-pink-500 border-white/20'
+            : 'bg-black/10 text-[#252A27] hover:bg-black hover:text-white border-black/20'
         }`}
       >
         <svg
-          className="w-4 h-4 fill-current"
+          className={`${iconSize} fill-current`}
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
         </svg>
+
+        {/* Small video play dot indicator */}
+        <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-[#D6AA52] rounded-full ring-1 ring-white" />
       </a>
     </div>
   );

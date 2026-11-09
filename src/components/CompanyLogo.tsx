@@ -17,17 +17,17 @@ export const CompanyLogo: React.FC<CompanyLogoProps> = ({
   const logoSrc = customLogoUrl || COMPANY_DATA.logoUrl;
   const isLight = variant === 'light';
 
-  // Dimension presets
+  // Dimension presets with ultra-small 320px support
   const emblemSize = {
-    sm: 'w-9 h-9',
-    md: 'w-11 h-11 sm:w-12 sm:h-12',
-    lg: 'w-14 h-14 sm:w-16 sm:h-16',
+    sm: 'w-7 h-7 sm:w-9 sm:h-9',
+    md: 'w-8 h-8 sm:w-10 sm:h-10',
+    lg: 'w-11 h-11 sm:w-14 sm:h-14',
   }[size];
 
   if (variant === 'emblem-only') {
     return (
       <div
-        className={`relative ${emblemSize} rounded-full overflow-hidden shrink-0 border-2 border-[#D6AA52] shadow-md bg-white ${className}`}
+        className={`relative ${emblemSize} rounded-full overflow-hidden shrink-0 border border-[#D6AA52] shadow-sm bg-white ${className}`}
       >
         <img
           src={logoSrc}
@@ -39,13 +39,13 @@ export const CompanyLogo: React.FC<CompanyLogoProps> = ({
   }
 
   return (
-    <div className={`flex items-center gap-3.5 group cursor-pointer ${className}`}>
+    <div className={`flex items-center gap-1.5 sm:gap-2.5 group cursor-pointer shrink-0 ${className}`}>
       {/* Official Circular Logo Emblem */}
       <div
-        className={`relative ${emblemSize} rounded-full overflow-hidden shrink-0 border-2 transition-transform duration-200 group-hover:scale-105 shadow-md bg-white ${
+        className={`relative ${emblemSize} rounded-full overflow-hidden shrink-0 border transition-transform duration-200 group-hover:scale-105 shadow-sm bg-white ${
           isLight
-            ? 'border-[#D6AA52] ring-2 ring-white/15'
-            : 'border-[#D6AA52] ring-2 ring-[#174C35]/15'
+            ? 'border-[#D6AA52] ring-1 ring-white/20'
+            : 'border-[#D6AA52] ring-1 ring-[#174C35]/15'
         }`}
       >
         <img
@@ -56,16 +56,16 @@ export const CompanyLogo: React.FC<CompanyLogoProps> = ({
       </div>
 
       {/* Brand Typography Lockup */}
-      <div className="flex flex-col text-left leading-none">
+      <div className="flex flex-col text-left leading-none shrink-0">
         <span
-          className={`font-serif tracking-wider font-bold text-base sm:text-lg uppercase transition-colors ${
+          className={`font-serif tracking-normal sm:tracking-wider font-bold text-xs sm:text-base lg:text-lg uppercase transition-colors whitespace-nowrap ${
             isLight ? 'text-white' : 'text-[#174C35]'
           }`}
         >
           Khan Muhammad
         </span>
         <span
-          className="text-[10px] sm:text-xs font-semibold tracking-[0.22em] uppercase mt-1 text-[#D6AA52]"
+          className="text-[8px] sm:text-[11px] font-semibold tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#D6AA52] whitespace-nowrap mt-0.5"
         >
           Rice Mills
         </span>

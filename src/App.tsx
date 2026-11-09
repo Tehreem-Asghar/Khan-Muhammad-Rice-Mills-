@@ -6,15 +6,20 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar.tsx';
 import { HeroSection } from './components/HeroSection.tsx';
+import { StatsCounter } from './components/StatsCounter.tsx';
 import { AboutSection } from './components/AboutSection.tsx';
 import { LeadershipSection } from './components/LeadershipSection.tsx';
 import { ProcessingSection } from './components/ProcessingSection.tsx';
 import { QualitySection } from './components/QualitySection.tsx';
+import { GrainComparison } from './components/GrainComparison.tsx';
 import { ProductsSection } from './components/ProductsSection.tsx';
+import { RiceEstimator } from './components/RiceEstimator.tsx';
 import { WhyChooseUsSection } from './components/WhyChooseUsSection.tsx';
 import { GallerySection } from './components/GallerySection.tsx';
 import { TikTokVideoShowcase } from './components/TikTokVideoShowcase.tsx';
+import { FaqSection } from './components/FaqSection.tsx';
 import { ContactSection } from './components/ContactSection.tsx';
+import { WhatsAppWidget } from './components/WhatsAppWidget.tsx';
 import { Footer } from './components/Footer.tsx';
 import { COMPANY_DATA } from './data/companyData.ts';
 
@@ -67,20 +72,23 @@ export default function App() {
     }
   });
 
-  // Founder & CEO (Atta Muhammad Unar) Photo State initialized with user's uploaded photograph
+  // Founder CEO 1 (Atta Muhammad Unar) Photo State
   const [ceoPhoto, setCeoPhoto] = useState<string | null>(() => {
     try {
-      const saved = localStorage.getItem('kmrm_ceo_photo');
-      if (saved && !saved.includes('WhatsApp_Image_2026-11-05')) {
-        return saved;
-      }
-      return COMPANY_DATA.leadership.founderCeo1.photoUrl;
+      return (
+        localStorage.getItem('kmrm_ceo_photo') ||
+        COMPANY_DATA.leadership.founderCeo1?.photoUrl ||
+        '/assets/aistudio/Professional_Portrait_in_a_Navy_Suit_047b8ef2.png'
+      );
     } catch {
-      return COMPANY_DATA.leadership.founderCeo1.photoUrl;
+      return (
+        COMPANY_DATA.leadership.founderCeo1?.photoUrl ||
+        '/assets/aistudio/Professional_Portrait_in_a_Navy_Suit_047b8ef2.png'
+      );
     }
   });
 
-  // Founder & CEO (Naresh Kumar) Photo State initialized with user's uploaded photograph
+  // Founder CEO 2 (Naresh Kumar) Photo State
   const [nareshKumarPhoto, setNareshKumarPhoto] = useState<string | null>(() => {
     try {
       return (
@@ -96,23 +104,25 @@ export default function App() {
     }
   });
 
-  // Director 3 & Operations Lead (Ghulam Abbas Unar) Photo State initialized with studio portrait
+  // Contact Rep (Ghulam Abbas Unar) Photo State
   const [contactRepPhoto, setContactRepPhoto] = useState<string | null>(() => {
     try {
-      const saved = localStorage.getItem('kmrm_contact_rep_photo');
-      if (saved && !saved.includes('WhatsApp_Image_2026-11-03')) {
-        return saved;
-      }
-      return COMPANY_DATA.leadership.contactPerson.photoUrl;
+      return (
+        localStorage.getItem('kmrm_contact_rep_photo') ||
+        COMPANY_DATA.leadership.contactPerson?.photoUrl ||
+        '/assets/aistudio/Modern_Business_Portrait_with_Warm_Studio_Accents_801c9d4f.png'
+      );
     } catch {
-      return COMPANY_DATA.leadership.contactPerson.photoUrl;
+      return (
+        COMPANY_DATA.leadership.contactPerson?.photoUrl ||
+        '/assets/aistudio/Modern_Business_Portrait_with_Warm_Studio_Accents_801c9d4f.png'
+      );
     }
   });
 
-  // Selected Product inquiry transfer
+  // Active Inquiry Topic (Auto-filled into Contact Form)
   const [inquiryTopic, setInquiryTopic] = useState<string>('');
 
-  // Save to localStorage when updated
   const handleUpdateBothCeosPhoto = (newPhotoUrl: string | null) => {
     setBothCeosPhoto(newPhotoUrl);
     try {
@@ -152,32 +162,6 @@ export default function App() {
     }
   };
 
-  const handleUpdateCeoPhoto = (newPhotoUrl: string | null) => {
-    setCeoPhoto(newPhotoUrl);
-    try {
-      if (newPhotoUrl) {
-        localStorage.setItem('kmrm_ceo_photo', newPhotoUrl);
-      } else {
-        localStorage.removeItem('kmrm_ceo_photo');
-      }
-    } catch {
-      // Ignore quota errors
-    }
-  };
-
-  const handleUpdateNareshKumarPhoto = (newPhotoUrl: string | null) => {
-    setNareshKumarPhoto(newPhotoUrl);
-    try {
-      if (newPhotoUrl) {
-        localStorage.setItem('kmrm_naresh_kumar_photo', newPhotoUrl);
-      } else {
-        localStorage.removeItem('kmrm_naresh_kumar_photo');
-      }
-    } catch {
-      // Ignore
-    }
-  };
-
   const handleUpdateContactRepPhoto = (newPhotoUrl: string | null) => {
     setContactRepPhoto(newPhotoUrl);
     try {
@@ -201,10 +185,13 @@ export default function App() {
         {/* 1. Hero Section */}
         <HeroSection />
 
-        {/* 2. About Us Section */}
+        {/* 2. Live Operational Statistics Bar */}
+        <StatsCounter />
+
+        {/* 3. About Us Section */}
         <AboutSection />
 
-        {/* 3. Meet Our Leadership (Both CEOs in One Frame, and Directors) */}
+        {/* 4. Meet Our Leadership */}
         <LeadershipSection
           bothCeosPhoto={bothCeosPhoto}
           onUpdateBothCeosPhoto={handleUpdateBothCeosPhoto}
@@ -216,25 +203,38 @@ export default function App() {
           onUpdateGhulamAbbasPhoto={handleUpdateContactRepPhoto}
         />
 
-        {/* 4. Rice Processing Section (5 Stages) */}
-        <ProcessingSection />
-
-        {/* 6. Quality Commitment Section */}
-        <QualitySection />
-
-        {/* 7. Products Section */}
+        {/* 5. Products Section */}
         <ProductsSection onSelectProductForInquiry={setInquiryTopic} />
 
-        {/* 8. Why Choose Us Section */}
+        {/* 6. Interactive Rice Price & Volume Calculator */}
+        <RiceEstimator
+          onApplyToInquiry={(variety, details) => {
+            setInquiryTopic(`${variety} (${details})`);
+          }}
+        />
+
+        {/* 7. Rice Processing Section (5 Stages) */}
+        <ProcessingSection />
+
+        {/* 8. Quality Commitment Section */}
+        <QualitySection />
+
+        {/* 9. Interactive Grain Specification Comparison */}
+        <GrainComparison />
+
+        {/* 10. Why Choose Us Section */}
         <WhyChooseUsSection />
 
-        {/* 9. Photo & Video Gallery Section */}
+        {/* 11. Photo & Video Gallery Section */}
         <GallerySection />
 
-        {/* 10. Official TikTok Video Reels Showcase (@khanricemill) */}
+        {/* 12. Official TikTok Video Reels Showcase (@khanricemill) */}
         <TikTokVideoShowcase />
 
-        {/* 11. Contact Section (G Abbas Unar - Business Contact Representative) */}
+        {/* 13. Wholesale FAQ Accordion */}
+        <FaqSection />
+
+        {/* 14. Contact Section (G Abbas Unar - Business Contact Representative) */}
         <ContactSection
           initialInquiryTopic={inquiryTopic}
           contactRepPhoto={contactRepPhoto}
@@ -242,8 +242,11 @@ export default function App() {
         />
       </main>
 
-      {/* 11. Corporate Footer */}
+      {/* 15. Corporate Footer */}
       <Footer />
+
+      {/* 16. Floating WhatsApp & Quick Action Button */}
+      <WhatsAppWidget />
     </div>
   );
 }
